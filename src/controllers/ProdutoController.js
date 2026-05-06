@@ -22,11 +22,52 @@ class ProdutoController {
             res.json(resultado)
 
         } catch (erro) {
-            res.status(500).jsom({
+            res.status(500).json({
                 sucesso: false, 
                 mensagem: erro.mensagem || "Erro interno do servidor",
                 erro: erro
             })
         }
     }
+
+    async cadastrar(req,res) {
+        try {
+            const resultado = await produtoService.cadastrarProduto(req.body)
+            res.status(201).json(resultado)
+        } catch (erro) {
+            res.status(500).json({
+                sucesso: false, 
+                mensagem: erro.mensagem || "Erro interno do servidor",
+                erro: erro
+            })
+        }
+    }
+
+    async atualizar(req, res){
+        try {
+            const resultado = await produtoService.atualizarProduto(req.params.id, req.body)
+            res.status(200).json(resultado)
+        } catch (erro) {
+            res.status(500).json({
+                sucesso: false, 
+                mensagem: erro.mensagem || "Erro interno do servidor",
+                erro: erro
+            })
+        }
+    }
+
+    async deletar(req,res) {
+        try {
+            const resultado = await produtoService.deletarProduto(req.params.id)
+            res.status(200).json(resultado)
+        } catch (erro) {
+          res.status(500).json({
+                sucesso: false, 
+                mensagem: erro.mensagem || "Erro interno do servidor",
+                erro: erro
+            })  
+        }
+    }
 }
+
+module.exports = new ProdutoController()
